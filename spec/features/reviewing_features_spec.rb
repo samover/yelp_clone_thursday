@@ -4,7 +4,7 @@ feature 'Reviewing' do
   before do
     sign_in
     add_restaurant
-    create_review
+    create_review(thoughts: "Good", rating: 4)
   end
 
   scenario 'Allows a signed in user to review a restaurant using a form' do
@@ -35,5 +35,12 @@ feature 'Reviewing' do
     sign_in(email: 'test2@test.com', password: 'password')
     click_link 'KFC'
     expect(page).not_to have_link 'Delete Review'
+  end
+
+  scenario 'displays an average rating for all reviews' do
+    sign_out
+    sign_in(email: 'test2@test.com', password: 'password')
+    create_review(thoughts: 'Bad', rating: 2)
+    expect(page).to have_content 'Average rating: 3'
   end
 end
