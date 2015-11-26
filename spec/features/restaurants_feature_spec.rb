@@ -8,6 +8,7 @@ feature 'restaurant' do
       expect(page).to have_link 'Add a restaurant!'
     end
   end
+
   context 'restaurants have been added' do
     before do
       Restaurant.create(name: 'KFC')
@@ -18,24 +19,36 @@ feature 'restaurant' do
       expect(page).not_to have_content('No restaurants yet')
     end
   end
-  context 'creating restaurants' do
-    scenario 'prompt a user to fill out a form, the display the new restaurant' do
-      visit '/restaurants'
-      click_link 'Add a restaurant!'
-      fill_in 'Name', with: 'KFC'
-      click_button 'Create Restaurant'
-      expect(page).to have_content 'KFC'
-      expect(current_path).to eq '/restaurants'
-    end
 
-    context 'invalid restaurant' do
-      it 'does not allow user to submit name that is too short' do
+  context 'creating restaurants' do
+    context 'when a user is signed in'
+      scenario 'prompt a user to fill out a form, the display the new restaurant' do
+        sign_in
         visit '/restaurants'
         click_link 'Add a restaurant!'
-        fill_in 'Name', with: 'kf'
+        fill_in 'Name', with: 'KFC'
         click_button 'Create Restaurant'
-        expect(page).not_to have_css 'h2', text: 'kf'
-        expect(page).to have_content 'error'
+        expect(page).to have_content 'KFC'
+        expect(current_path).to eq '/restaurants'
+      end
+
+      context 'invalid restaurant' do
+        it 'does not allow user to submit name that is too short' do
+          sign_in
+          visit '/restaurants'
+          click_link 'Add a restaurant!'
+          fill_in 'Name', with: 'kf'
+          click_button 'Create Restaurant'
+          expect(page).not_to have_css 'h2', text: 'kf'
+          expect(page).to have_content 'error'
+        end
+      end
+
+    context 'when a user is not signed in' do
+      scenario 'prompt a user to sign up or sign in' do
+        visit '/restaurants'
+        click_link 'Add a restaurant!'
+        expect(page).to have_content 'You need to sign in or sign up before continuing.'
       end
     end
   end
@@ -54,6 +67,7 @@ feature 'restaurant' do
     before { Restaurant.create name: 'KFC' }
 
     scenario 'let a user edit a restaurant' do
+      sign_in
       visit '/restaurants'
       click_link 'Edit KFC'
       fill_in 'Name', with: 'Kentucky Fried Chicken'
@@ -67,6 +81,7 @@ feature 'restaurant' do
     before { Restaurant.create name: 'KFC' }
 
     scenario 'removes a restaurant when a user clicks a delete link' do
+      sign_in
       visit '/restaurants'
       click_link 'Delete KFC'
       expect(page).not_to have_content 'KFC'
