@@ -6,7 +6,6 @@ class Restaurant < ActiveRecord::Base
   def build_review review_params, user
     review = reviews.new(review_params)
     review.user = user
-    review.save
     review
   end
 end
