@@ -64,15 +64,28 @@ feature 'restaurant' do
   end
 
   context 'editing restaurants' do
-    before { Restaurant.create name: 'KFC' }
-
-    scenario 'let a user edit a restaurant' do
+    scenario 'let a user edit a restaurant which he has created' do
       sign_in
+      add_restaurant
       visit '/restaurants'
       click_link 'Edit KFC'
       fill_in 'Name', with: 'Kentucky Fried Chicken'
       click_button 'Update Restaurant'
       expect(page).to have_content 'Kentucky Fried Chicken'
+      expect(current_path).to eq '/restaurants'
+    end
+
+    scenario 'does not let a user edit a restaurant which he has not created' do
+      sign_in
+      add_restaurant
+      sign_out
+      sign_in(email:"test2@test.com", password:"password2")
+      visit '/restaurants'
+      click_link 'Edit KFC'
+      fill_in 'Name', with: 'Kentucky Fried Chicken'
+      click_button 'Update Restaurant'
+      expect(page).to have_content 'You cannot edit this restaurant'
+      expect(page).not_to have_content 'Kentucky Fried Chicken'
       expect(current_path).to eq '/restaurants'
     end
   end
