@@ -2,18 +2,14 @@ require 'spec_helper'
 
 feature 'Reviewing' do
   before do
-    Restaurant.create name: 'KFC'
     sign_in
-    visit '/restaurants'
-    click_link 'Review KFC'
-    fill_in 'Thoughts', with: 'Okay'
-    select '3', from: 'Rating'
-    click_button 'Leave Review'
+    add_restaurant
+    create_review
   end
 
   scenario 'Allows a signed in user to review a restaurant using a form' do
     expect(current_path).to eq '/restaurants'
-    expect(page).to have_content 'Okay'
+    expect(page).to have_content 'Good'
   end
 
   scenario 'Does not allow a user to review a restaurant if not signed in' do
@@ -23,11 +19,18 @@ feature 'Reviewing' do
   end
 
   scenario 'Does not allow a user to review a restaurant more than once' do
-    click_link 'Review KFC'
-    fill_in 'Thoughts', with: 'Good'
-    select '4', from: 'Rating'
-    click_button 'Leave Review'
+    create_review(thoughts:"Bad", rating:2)
     expect(page).to have_content 'You have already reviewed this restaurant'
-    expect(page).not_to have_content 'Good'
+    expect(page).not_to have_content 'Bad'
+  end
+
+  scenario "allows an author of a review to delete his review" do
+    click_link 'KFC'
+    click_link 'Delete Review'
+    expect(page).to_not have_content 'Okay'
+  end
+
+  scenario "does not allow a user to delete a review she has not authored" do
+
   end
 end

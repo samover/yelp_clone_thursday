@@ -61,6 +61,13 @@ feature 'restaurant' do
       expect(page).to have_content 'KFC'
       expect(current_path).to eq "/restaurants/#{kfc.id}"
     end
+    scenario 'shows user all reviews' do
+      sign_in
+      visit '/restaurants'
+      create_review
+      click_link 'KFC'
+      expect(page).to have_content 'Good'
+    end
   end
 
   context 'editing restaurants' do
@@ -83,7 +90,7 @@ feature 'restaurant' do
       sign_in(email:"test2@test.com", password:"password2")
       expect(page).not_to have_css 'a', text: 'Edit KFC'
     end
-    
+
     scenario 'not allowed when signed out' do
       sign_out
       expect(page).not_to have_css 'a', text: 'Edit KFC'
@@ -102,7 +109,7 @@ feature 'restaurant' do
       expect(page).not_to have_content 'KFC'
       expect(page).to have_content 'Restaurant deleted successfully'
     end
-    
+
     scenario 'doen not let a user delete a restaurant which she has not created' do
       sign_out
       sign_in(email: 'potato@makers.org', password: 'password')
