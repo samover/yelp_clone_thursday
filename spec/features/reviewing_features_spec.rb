@@ -31,6 +31,9 @@ feature 'Reviewing' do
   end
 
   scenario "does not allow a user to delete a review she has not authored" do
-
+    sign_out
+    sign_in(email: 'test2@test.com', password: 'password')
+    click_link 'KFC'
+    expect(page).not_to have_link 'Delete Review'
   end
 end
