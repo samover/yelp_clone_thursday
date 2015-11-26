@@ -21,4 +21,13 @@ feature 'Reviewing' do
     click_link 'Review KFC'
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
+
+  scenario 'Does not allow a user to review a restaurant more than once' do
+    click_link 'Review KFC'
+    fill_in 'Thoughts', with: 'Good'
+    select '4', from: 'Rating'
+    click_button 'Leave Review'
+    expect(page).to have_content 'You have already reviewed this restaurant'
+    expect(page).not_to have_content 'Good'
+  end
 end
