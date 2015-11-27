@@ -7,10 +7,11 @@
       = review.thoughts
       %strong= review.rating
       \/5
-      %em= pluralize review.endorsements.count, 'endorsement'
+      %span.endorsements_count= review.endorsements.count
+      = 'endorsement'.pluralize review.endorsements.count
       - if review.user == current_user
         = link_to "Delete Review", review_path(review), method: :delete
       - unless review.endorsements.any? { |endorsement| endorsement.user == current_user }
-        = link_to "Endorse Review", review_endorsements_path(review, @restaurant), method: :post
+        = link_to "Endorse Review", review_endorsements_path(review), class: 'endorsements-link'
 - else
   %p No reviews

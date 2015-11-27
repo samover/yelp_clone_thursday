@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe Restaurant, type: :model do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:user2) { FactoryGirl.build(:user2) }
+  let(:user) { build(:user) }
+  let(:user2) { build(:user2) }
   let(:review_params) { { thoughts: 'So so', rating: 3 } }
   let(:review_params2) { { thoughts: 'Bad', rating: 1 } }
-  
-  subject(:restaurant) { FactoryGirl.build(:restaurant) }
+
+  subject(:restaurant) { build(:restaurant) }
 
   it { is_expected.to have_many :reviews }
 

@@ -36,6 +36,7 @@ feature 'Reviewing' do
   scenario "allows an author of a review to delete his review" do
     click_link 'KFC'
     click_link 'Delete Review'
+    expect(page).to have_content 'Review deleted successfully'
     expect(page).to_not have_content 'Okay'
   end
 
