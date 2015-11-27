@@ -9,8 +9,12 @@ Rails.application.routes.draw do
 
   # Example of regular route:
   get 'restaurants' => 'restaurants#index'
-  resources :restaurants do
-    resources :reviews
+  shallow do
+    resources :restaurants do
+      resources :reviews do
+        resources :endorsements
+      end
+    end
   end
 
 

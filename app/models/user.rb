@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many :restaurants
   has_many :reviews
   has_many :reviewed_restaurants, through: :reviews, source: :restaurant
+  has_many :endorsements
 
   def has_reviewed? restaurant
     reviewed_restaurants.include? restaurant

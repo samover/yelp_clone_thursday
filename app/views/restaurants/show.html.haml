@@ -8,6 +8,7 @@
       %strong= review.rating
       \/5
       - if review.user == current_user
-        = link_to "Delete Review", restaurant_review_path(@restaurant, review), method: :delete
+        = link_to "Delete Review", review_path(review), method: :delete
+      = link_to "Endorse Review", review_endorsements_path(review, @restaurant), method: :post
 - else
   %p No reviews
