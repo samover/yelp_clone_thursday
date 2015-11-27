@@ -9,9 +9,9 @@ describe ReviewsHelper, type: :helper  do
     it 'returns five stars if 5 is given' do
       expect(helper.star_rating 5).to eq '★★★★★'
     end
-    
+
     it 'returns two stars if 1.5 is given' do
       expect(helper.star_rating 1.5).to eq '★★☆☆☆'
     end
   end
-end 
+end

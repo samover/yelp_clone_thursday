@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'User can sign in and out' do
   context 'User not signed in and on home page' do

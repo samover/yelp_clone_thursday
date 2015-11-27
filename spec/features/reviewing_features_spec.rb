@@ -1,10 +1,19 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Reviewing' do
   before do
     sign_in
     add_restaurant
     create_review(thoughts: "Good", rating: 4)
+  end
+
+  scenario 'Allow a user to see the time elapsed since review posted' do
+    restaurant = Restaurant.all.last
+    review = restaurant.reviews.last
+    review.created_at = DateTime.now - 50
+    review.save
+    visit('/')
+    expect(page).to have_content 'about 2 months ago'
   end
 
   scenario 'Allows a signed in user to review a restaurant using a form' do

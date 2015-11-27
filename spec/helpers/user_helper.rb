@@ -11,9 +11,9 @@ def sign_out
   click_link 'Sign out'
 end
 
-def add_restaurant
+def add_restaurant(name: 'KFC')
   visit '/restaurants'
   click_link 'Add a restaurant!'
-  fill_in 'Name', with: 'KFC'
+  fill_in 'Name', with: name
   click_button 'Create Restaurant'
 end
