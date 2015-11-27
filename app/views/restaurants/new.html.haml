@@ -7,8 +7,4 @@
       - @restaurant.errors.full_messages.each do |msg|
         %li= msg
 
-= form_for @restaurant, html: { multipart: true } do |f|
-  = f.label :name
-  = f.text_field :name
-  = f.file_field :image
-  = f.submit
+=render 'form'

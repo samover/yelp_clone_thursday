@@ -1,3 +1,4 @@
+= image_tag @restaurant.image.url(:thumb)
 %p= @restaurant.name
 %p= @restaurant.description
 - if @restaurant.reviews.any?
