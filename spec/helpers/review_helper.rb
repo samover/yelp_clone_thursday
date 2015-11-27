@@ -4,3 +4,4 @@ def create_review(thoughts: "Good", rating: 4)
   select rating, from: 'Rating'
   click_button 'Leave Review'
 end
+

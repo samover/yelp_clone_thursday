@@ -41,6 +41,6 @@ feature 'Reviewing' do
     sign_out
     sign_in(email: 'test2@test.com', password: 'password')
     create_review(thoughts: 'Bad', rating: 2)
-    expect(page).to have_content 'Average rating: 3'
+    expect(page).to have_content 'Average rating: ★★★☆☆'
   end
 end
